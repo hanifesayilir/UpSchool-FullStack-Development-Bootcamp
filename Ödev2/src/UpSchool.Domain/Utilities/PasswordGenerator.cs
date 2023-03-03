@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Collections;
+using System.Text;
 using UpSchool.Domain.Common;
 using UpSchool.Domain.Dtos;
 
@@ -10,10 +11,14 @@ namespace UpSchool.Domain.Utilities
         private const string LowercaseCharacters = "abcdefghijklmnopqrstuvwxyz";
         private const string UppercaseCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         private const string SpecialCharacters = "!@#$%^&*()";
+       
 
         private readonly Random _random;
         private readonly StringBuilder _passwordBuilder;
         private readonly StringBuilder _charSetBuilder;
+        public Stack my_stack = new Stack();
+
+
 
         public PasswordGenerator()
         {
@@ -38,9 +43,6 @@ namespace UpSchool.Domain.Utilities
 
             if (generatePasswordDto.IncludeSpecialCharacters) _charSetBuilder.Append(SpecialCharacters);
 
-            //if (!generatePasswordDto.IncludeNumbers && !generatePasswordDto.IncludeLowercaseCharacters &&
-            //!generatePasswordDto.IncludeUppercaseCharacters && !generatePasswordDto.IncludeSpecialCharacters
-            //    )
             if(generatePasswordDto is
                {IncludeNumbers:false, IncludeLowercaseCharacters:false, 
                    IncludeUppercaseCharacters:false, IncludeSpecialCharacters:false})
