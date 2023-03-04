@@ -16,7 +16,7 @@ namespace UpSchool.Domain.Utilities
         private readonly Random _random;
         private readonly StringBuilder _passwordBuilder;
         private readonly StringBuilder _charSetBuilder;
-        public Stack my_stack = new Stack();
+        
 
 
 
