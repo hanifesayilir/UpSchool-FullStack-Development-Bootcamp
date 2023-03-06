@@ -16,7 +16,9 @@ namespace UpSchool.Domain.Utilities
         private readonly Random _random;
         private readonly StringBuilder _passwordBuilder;
         private readonly StringBuilder _charSetBuilder;
-        
+        private string Password = String.Empty;
+        private string PreviousPassword = String.Empty;
+
 
 
 
@@ -59,7 +61,26 @@ namespace UpSchool.Domain.Utilities
                 _passwordBuilder.Append(charSet[randomIndex]);
             }
 
-            return _passwordBuilder.ToString();
+            Password = _passwordBuilder.ToString();
+            return Password;
+        }
+
+        public PasswordMemento AddToPasswordMemento ()
+        {
+            return new PasswordMemento(Password);
+        }
+
+        
+
+        public void RestoreFromPasswordMemento(PasswordMemento passwordMemento)
+        {
+            PreviousPassword = passwordMemento.GetState();
+                
+        }
+
+        public string GetPreviousPassword()
+        {
+            return PreviousPassword;
         }
 
     }

@@ -9,11 +9,22 @@ namespace UpSchool.Domain.Utilities
     public class PasswordMemento
     {
 
-        private string Password { get; set; } = string.Empty;
+        private string Password { get;  } = string.Empty;
 
         public PasswordMemento(string password)
         {
-            this.Password = Password;
+            this.Password = password;
         }
+
+        public string GetState()
+        {
+            return Password;
+        }
+
+        public override string ToString()
+        {
+            return this.Password;
+        }
+    
     }
 }
