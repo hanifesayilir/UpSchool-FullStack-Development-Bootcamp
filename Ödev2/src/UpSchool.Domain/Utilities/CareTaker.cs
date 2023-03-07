@@ -15,22 +15,20 @@ namespace UpSchool.Domain.Utilities
         public void Add(PasswordMemento state)
         {
             PasswordMementoList.Add(state);
+
+            // The below statements are only for showing all created passwords on web console
             Console.WriteLine(PasswordMementoList.Count);
-         
-          for(int i=0;i<PasswordMementoList.Count;i++)
-            {
-                Console.WriteLine("add: "+i+" "+PasswordMementoList[i]);
-            }
+            for(int i=0;i<PasswordMementoList.Count;i++)
+                {
+                    Console.WriteLine("add: "+i+" "+PasswordMementoList[i]);
+                }
         }
 
         public PasswordMemento? Get()
         {
-
-
             if (PasswordMementoList.Count > 1)
             {
                 PasswordMementoList.RemoveAt(PasswordMementoList.Count - 1);
-               // Console.WriteLine("Sonra" + PasswordMementoList.Count);
                 return PasswordMementoList.Last();
             }
             else if (PasswordMementoList.Count == 1)

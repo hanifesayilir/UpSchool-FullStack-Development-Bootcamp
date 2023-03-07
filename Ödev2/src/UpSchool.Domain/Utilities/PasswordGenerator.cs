@@ -17,10 +17,7 @@ namespace UpSchool.Domain.Utilities
         private readonly StringBuilder _passwordBuilder;
         private readonly StringBuilder _charSetBuilder;
         private string Password = String.Empty;
-        private string PreviousPassword = String.Empty;
-
-
-
+       
 
         public PasswordGenerator()
         {
@@ -70,18 +67,12 @@ namespace UpSchool.Domain.Utilities
             return new PasswordMemento(Password);
         }
 
-        
-
-        public void RestoreFromPasswordMemento(PasswordMemento passwordMemento)
+        public string RestoreFromPasswordMemento(PasswordMemento passwordMemento)
         {
-            PreviousPassword = passwordMemento.GetState();
-                
+            Password = passwordMemento.GetState();
+            return Password;
         }
-
-        public string GetPreviousPassword()
-        {
-            return PreviousPassword;
-        }
+    
 
     }
 }
