@@ -11,6 +11,8 @@ namespace Application.Common.Interfaces
         DbSet<Country> Countries { get; set; }
         DbSet<City> Cities { get; set; }
         DbSet<Address> Addresses { get; set; } 
+        DbSet<Category> Categories { get; set; }
+        DbSet<Note> Notes { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
         int SaveChanges();

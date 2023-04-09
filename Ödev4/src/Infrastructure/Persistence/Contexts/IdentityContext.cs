@@ -28,6 +28,8 @@ namespace Infrastructure.Persistence.Contexts
             modelBuilder.Ignore<AccountCategory>();
             modelBuilder.Ignore<Category>();
             modelBuilder.Ignore<Address>();
+            modelBuilder.Ignore<Note>();
+            modelBuilder.Ignore<NoteCategory>();
 
 
             base.OnModelCreating(modelBuilder);
