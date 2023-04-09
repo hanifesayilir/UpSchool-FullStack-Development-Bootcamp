@@ -11,7 +11,6 @@ namespace Infrastructure.Persistence.Configurations.Application
         {
 
             // ID
-
             builder.HasKey(x => new { x.NoteId, x.CategoryId });
 
             // Relationships

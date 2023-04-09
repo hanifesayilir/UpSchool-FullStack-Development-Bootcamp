@@ -14,9 +14,9 @@ namespace Infrastructure.Persistence.Configurations.Application
             builder.Property(x => x.Id).ValueGeneratedOnAdd();
 
             // Title
-            builder.Property(c => c.Title).IsRequired();
+            builder.Property(c => c.Title).IsRequired(false);
             builder.Property(c => c.Title).HasMaxLength(500);
-            builder.HasIndex(x => x.Title);
+ 
 
             // Content
             builder.Property(c => c.Content).IsRequired();
@@ -49,6 +49,7 @@ namespace Infrastructure.Persistence.Configurations.Application
             builder.Property(x => x.IsDeleted).IsRequired();
             builder.Property(x => x.IsDeleted).HasDefaultValueSql("0");
             builder.HasIndex(x => x.IsDeleted);
+
             // Relations
 
             builder.ToTable("Notes");
