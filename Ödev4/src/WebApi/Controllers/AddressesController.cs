@@ -23,14 +23,14 @@ namespace WebApi.Controllers
         }
 
 
-        [HttpPost("Delete")]
-        public async Task<IActionResult> UpdateAsync(AddressDeleteCommand command)
+        [HttpPost("HardDelete")]
+        public async Task<IActionResult> HardDeleteAsync(AddressDeleteCommand command)
         {
             return Ok(await Mediator.Send(command));
         }
 
-        [HttpPost("SoftDelete")]
-        public async Task<IActionResult> UpdateAsync(AddressSoftDeleteCommand command)
+        [HttpPost("Delete")]
+        public async Task<IActionResult> SofDeleteAsync(AddressSoftDeleteCommand command)
         {
             return Ok(await Mediator.Send(command));
         }
