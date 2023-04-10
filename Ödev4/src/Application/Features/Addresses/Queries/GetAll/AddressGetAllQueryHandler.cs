@@ -25,11 +25,11 @@ namespace Application.Features.Addresses.Queries.GetAll
         {
             var dbQuery = _applicationDbContext.Addresses.AsQueryable();
             dbQuery = dbQuery.Where(x =>x.UserId == request.UserId);
-            //    .Where(x => x.CityId == request.CityId);
-
+            
             if (request.IsDeleted.HasValue) dbQuery = dbQuery.Where(x => x.IsDeleted == request.IsDeleted.Value);
 
             dbQuery = dbQuery.Include(x => x.Country);
+            dbQuery = dbQuery.Include(x => x.City);
 
             var addresses = await dbQuery.ToListAsync(cancellationToken);
 
@@ -51,6 +51,7 @@ namespace Application.Features.Addresses.Queries.GetAll
                 yield return new AddressGetAllDto()
                 {
                     Id = address.Id,
+                    UserId= address.UserId,
                     Name = address.Name,
                     CountryId = address.CountryId,
                     CountryName = address.Country.Name,

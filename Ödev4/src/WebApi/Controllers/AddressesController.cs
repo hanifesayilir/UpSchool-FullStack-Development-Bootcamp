@@ -1,7 +1,8 @@
 ﻿using Application.Features.Addresses.Commands.Add;
+using Application.Features.Addresses.Commands.Delete;
+using Application.Features.Addresses.Commands.SoftDelete;
 using Application.Features.Addresses.Commands.Update;
 using Application.Features.Addresses.Queries.GetAll;
-using Application.Features.Cities.Queries.GetAll;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers
@@ -9,14 +10,27 @@ namespace WebApi.Controllers
 
     public class AddressesController : ApiControllerBase
     {
-        [HttpPost]
+        [HttpPost("Add")]
         public async Task<IActionResult> AddAsync(AddressAddCommand command)
         {
             return Ok(await Mediator.Send(command));
         }
 
-        [HttpPost("UpdateAddress")]
+        [HttpPost("Update")]
         public async Task<IActionResult> UpdateAsync(AddressUpdateCommand command)
+        {
+            return Ok(await Mediator.Send(command));
+        }
+
+
+        [HttpPost("Delete")]
+        public async Task<IActionResult> UpdateAsync(AddressDeleteCommand command)
+        {
+            return Ok(await Mediator.Send(command));
+        }
+
+        [HttpPost("SoftDelete")]
+        public async Task<IActionResult> UpdateAsync(AddressSoftDeleteCommand command)
         {
             return Ok(await Mediator.Send(command));
         }
@@ -27,11 +41,19 @@ namespace WebApi.Controllers
             return Ok(await Mediator.Send(query));
         }
 
+        /*  [HttpGet("{userId}/{id}")]
+          public async Task<IActionResult> GetByIdAsync(int userId,int id)
+          {
+              return Ok(await Mediator.Send(new AddressGetByIdQuery(userId,id, null)));
+          }*/
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetByIdAsync(int id)
         {
-            return Ok(await Mediator.Send(new AddressGetAllQuery(id, null)));
+            return Ok(await Mediator.Send(new AddressGetAllQuery(id,null)));
         }
+
+
 
 
     }

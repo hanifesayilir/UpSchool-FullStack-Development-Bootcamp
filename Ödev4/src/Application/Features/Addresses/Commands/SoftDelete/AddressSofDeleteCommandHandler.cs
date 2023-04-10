@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Features.Addresses.Commands.Delete
+namespace Application.Features.Addresses.Commands.SoftDelete
 {
     public class AddressSofDeleteCommandHandler : IRequestHandler<AddressSoftDeleteCommand, Response<int>>
     {
@@ -16,21 +16,22 @@ namespace Application.Features.Addresses.Commands.Delete
 
         public AddressSofDeleteCommandHandler(IApplicationDbContext applicationDbContext)
         {
-            _applicationDbContext= applicationDbContext;
+            _applicationDbContext = applicationDbContext;
         }
         public async Task<Response<int>> Handle(AddressSoftDeleteCommand request, CancellationToken cancellationToken)
         {
-            var address = await _applicationDbContext.Addresses.FirstOrDefaultAsync(x =>x.Id== request.Id);
-          /*  if (address== null) { }
+            var address = await _applicationDbContext.Addresses.FirstOrDefaultAsync(x => x.Id == request.Id);
+            if (address == null) { return new Response<int>($"This id does not exist."); }
             else
             {
-                _applicationDbContext.Addresses.ExecuteUpdate();
+              
+                address.IsDeleted = true;
+                await _applicationDbContext.SaveChangesAsync(cancellationToken);
+
+                return new Response<int>($"The address \"{address.Name}\"s status has been succesfully made false", address.Id);
+
             }
-*/
-            /* _applicationDbContext.Addresses.Update()
-             await _applicationDbContext.SaveChangesAsync(cancellationToken);
-             return new Response<int>($"The new city \"{address.Id}\"named was succesfully deleted.", address.Id);*/
-            return new Response<int>($"The new city \"{address.Id}\"named was succesfully deleted.", address.Id);
+
         }
     }
 }

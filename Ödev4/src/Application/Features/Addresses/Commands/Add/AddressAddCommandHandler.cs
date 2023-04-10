@@ -39,7 +39,7 @@ namespace Application.Features.Addresses.Commands.Add
 
             await _applicationDbContext.SaveChangesAsync(cancellationToken);
 
-            return new Response<int>($"The new city \"{address.Name}\"named was succesfully added.", address.Id);
+            return new Response<int>($"The new address named \"{address.Name}\" has been succesfully added.", address.Id);
         }
     }
 }

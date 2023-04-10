@@ -23,11 +23,10 @@ namespace Application.Features.Addresses.Commands.Delete
         public async Task<Response<int>> Handle(AddressDeleteCommand request, CancellationToken cancellationToken)
         {
             var address = await _applicationDbContext.Addresses.Where(a => a.Id == request.Id).FirstOrDefaultAsync();
-             _applicationDbContext.Addresses.Remove(address);
+            if(address is null) return new Response<int>($"The address named \"{address.Name}\" does not exist.");
+            _applicationDbContext.Addresses.Remove(address);
             await _applicationDbContext.SaveChangesAsync(cancellationToken);
-            return new Response<int>($"The new city \"{address.Id}\"named was succesfully deleted.", address.Id);
-
-
+            return new Response<int>($"The address named \"{address.Name}\" has been succesfully deleted.", address.Id);
         }
     }
 }
