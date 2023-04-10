@@ -26,10 +26,11 @@ namespace Application.Features.Addresses.Commands.SoftDelete
          
             else
             {
-              
+
                 address.IsDeleted = true;
                 address.DeletedOn = DateTimeOffset.UtcNow;
-               
+                address.DeletedByUserId = null;
+
                 await _applicationDbContext.SaveChangesAsync(cancellationToken);
 
                 return new Response<int>($"The address \"{address.Name}\"s status has been succesfully made false", address.Id);

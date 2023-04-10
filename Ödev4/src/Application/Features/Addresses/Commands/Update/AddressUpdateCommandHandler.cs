@@ -35,7 +35,8 @@ namespace Application.Features.Addresses.Commands.Update
                 address.AddressType = request.AddressType;
                 address.Name= request.Name;
                 address.ModifiedOn = DateTimeOffset.Now;
-                address.ModifiedByUserId = (request.UserId).ToString();
+                address.ModifiedByUserId = null;
+              // address.ModifiedByUserId = (request.UserId).ToString(); 
 
 
 
