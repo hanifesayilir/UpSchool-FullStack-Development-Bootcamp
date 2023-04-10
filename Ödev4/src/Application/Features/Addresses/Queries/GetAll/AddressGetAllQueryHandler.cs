@@ -1,11 +1,13 @@
 ﻿using Application.Common.Interfaces;
 using Application.Features.Cities.Queries.GetAll;
+using Domain.Common;
 using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -25,7 +27,9 @@ namespace Application.Features.Addresses.Queries.GetAll
         {
             var dbQuery = _applicationDbContext.Addresses.AsQueryable();
             dbQuery = dbQuery.Where(x =>x.UserId == request.UserId);
-            
+
+         //   if (dbQuery == null) return new Response<int>($"The addressId of {request.} can not be found");
+
             if (request.IsDeleted.HasValue) dbQuery = dbQuery.Where(x => x.IsDeleted == request.IsDeleted.Value);
 
             dbQuery = dbQuery.Include(x => x.Country);

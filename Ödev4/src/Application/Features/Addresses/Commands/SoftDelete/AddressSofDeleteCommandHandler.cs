@@ -21,11 +21,15 @@ namespace Application.Features.Addresses.Commands.SoftDelete
         public async Task<Response<int>> Handle(AddressSoftDeleteCommand request, CancellationToken cancellationToken)
         {
             var address = await _applicationDbContext.Addresses.FirstOrDefaultAsync(x => x.Id == request.Id);
-            if (address == null) { return new Response<int>($"This id does not exist."); }
+
+            if (address == null) { return new Response<int>($"The addressId of {request.Id} can not be found"); }
+         
             else
             {
               
                 address.IsDeleted = true;
+                address.DeletedOn = DateTimeOffset.UtcNow;
+               
                 await _applicationDbContext.SaveChangesAsync(cancellationToken);
 
                 return new Response<int>($"The address \"{address.Name}\"s status has been succesfully made false", address.Id);

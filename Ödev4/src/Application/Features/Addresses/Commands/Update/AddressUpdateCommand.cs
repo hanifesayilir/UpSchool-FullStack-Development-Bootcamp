@@ -27,5 +27,7 @@ namespace Application.Features.Addresses.Commands.Update
         public string? AddressLine2 { get; set; }
 
         public AddressType AddressType { get; set; }
+
+   
     }
 }
