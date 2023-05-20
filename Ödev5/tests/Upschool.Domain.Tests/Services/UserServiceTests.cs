@@ -1,5 +1,6 @@
 ﻿using FakeItEasy;
 using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading;
 using UpSchool.Domain.Data;
@@ -170,7 +171,7 @@ namespace Upschool.Domain.Tests.Services
 
             var user = new User()
             {
-                Id = Guid.NewGuid(),
+                Id = Guid.Empty,
                 FirstName = "Hanife",
                 LastName = "SAY",
                 Email = null,
@@ -196,35 +197,33 @@ namespace Upschool.Domain.Tests.Services
             var userRepositoryMock = A.Fake<IUserRepository>();
             var cancelationSource = new CancellationTokenSource();
            
-
-
             var user = new User()
             {
      
                 Id = Guid.NewGuid(),
                 FirstName = "Hanife",
                 LastName = "SAY",
-                Email = null,
+                Email = "hanife@gmail",
                 Age = 15,
 
             };
 
             IUserService userService = new UserManager(userRepositoryMock);
-           // await userService.AddAsync(user.FirstName, user.LastName, user.Age, user.Email, cancelationSource.Token);
+
+            await userRepositoryMock.AddAsync(user, cancelationSource.Token);
 
 
 
 
-
-           // A.CallTo(async () => await userRepositoryMock.DeleteAsync(user =>user.Id, cancellationSource.Token))
-              //  .Returns(Task.FromResult(1));
+       /*     await A.CallTo(async () => await userRepositoryMock.DeleteAsync(user =>(user.Id, true), cancellationSource.Token))
+                .Returns(Task.FromResult(1));*/
             /*
                         A.CallTo(() => userRepositoryMock.DeleteAsync(id, cancellationSource.Token))
                             .Returns(Task.FromResult(1));*/
 
 
-
-           // await Assert.ThrowsAsync(() => userService.DeleteAsync(user.Id, cancellationSource.Token))
+         //   Assert.True();
+         
 
         }
 
@@ -255,22 +254,20 @@ namespace Upschool.Domain.Tests.Services
                 Age = 17,
             };
 
+            List<User> userList = new List<User>();
+
             IUserService userService = new UserManager(userRepositoryMock);
 
-            var d = await userService.AddAsync(userFirst.FirstName, userFirst.LastName, userFirst.Age, userFirst.Email, cancelationSource.Token);
-            await userService.AddAsync(userSecond.FirstName, userSecond.LastName, userSecond.Age, userSecond.Email, cancelationSource.Token);
+            await userRepositoryMock.AddAsync(userFirst, cancelationSource.Token);
+            await userRepositoryMock.AddAsync(userSecond, cancelationSource.Token);
 
-            //   A.CallTo(() => userRepositoryMock.GetAllAsync(cancelationSource.Token)).Returns(Task.FromResult(List<User>));
-
-
-            var g = await userService.GetByIdAsync(d, cancelationSource.Token);
-
-            List<User> userList = await userService.GetAllAsync(cancelationSource.Token);
+            A.CallTo(() => userRepositoryMock.GetAllAsync(cancelationSource.Token)).Returns(Task.FromResult(userList));
 
 
-            Console.WriteLine("USERLIST "+userList.Count);
+    
+            List<User> userList2 = await userService.GetAllAsync(cancelationSource.Token);
 
-           Assert.True(userList.Count > 0);
+           Assert.True(userList.Count > 1);
 
         }
 
