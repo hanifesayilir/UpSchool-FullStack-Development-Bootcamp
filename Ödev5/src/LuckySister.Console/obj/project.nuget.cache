@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "PsrK0zsxy4LuOdlxOBOEw0828xE83qLu8y8kB7+ttGFhENqam1It9gGHWX0LqvG7C+piW5GveC802H+3DBQgHA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\hanif\\Upschool\\UpSchool-Follow\\TheBasics\\src\\LuckySister.Console\\LuckySister.Console.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\hanif\\.nuget\\packages\\sqlite-net-pcl\\1.8.116\\sqlite-net-pcl.1.8.116.nupkg.sha512",
+    "C:\\Users\\hanif\\.nuget\\packages\\sqlitepclraw.bundle_green\\2.0.4\\sqlitepclraw.bundle_green.2.0.4.nupkg.sha512",
+    "C:\\Users\\hanif\\.nuget\\packages\\sqlitepclraw.core\\2.0.4\\sqlitepclraw.core.2.0.4.nupkg.sha512",
+    "C:\\Users\\hanif\\.nuget\\packages\\sqlitepclraw.lib.e_sqlite3\\2.0.4\\sqlitepclraw.lib.e_sqlite3.2.0.4.nupkg.sha512",
+    "C:\\Users\\hanif\\.nuget\\packages\\sqlitepclraw.provider.dynamic_cdecl\\2.0.4\\sqlitepclraw.provider.dynamic_cdecl.2.0.4.nupkg.sha512",
+    "C:\\Users\\hanif\\.nuget\\packages\\system.memory\\4.5.3\\system.memory.4.5.3.nupkg.sha512"
+  ],
+  "logs": []
+}
