@@ -1,0 +1,144 @@
+﻿@page "/notification_settings";
+@using Application.Common.Interfaces;
+@using Application.Features.NotificationSettings.Commands.Add;
+@inject HttpClient HttpClient
+@inject NavigationManager NavigationManager
+
+
+
+
+<div class="container justify-content-md-center">
+<div class="row justify-content-md-center">
+    <div class="col-sm-6">
+        <div class="card">
+    <div class="card-header text-center" style=" background-color: cadetblue">
+                    <h4 style="text-decoration-color:#1b6ec2">Notification Settings</h4>
+    </div>
+    <div class="card-body">
+                <div class="row">
+                    <div class="col-8 col-sm-6">
+                       Send Email Notification
+                    </div>
+                    <div class="col-4 col-sm-6">
+                        <div class="mb-3">
+                        <InputCheckbox class="form-check-input" id="IsEmailEnabled" @bind-Value="@notificationSetting.IsEmailEnabled" />
+ 
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-8 col-sm-6">
+                       Send Application Notification 
+                    </div>
+                    <div class="col-4 col-sm-6">
+                        <div class="mb-3">
+                        <InputCheckbox class="form-check-input" id="IsAppEnabled" @bind-Value="@notificationSetting.IsApplicationEnabled" />
+ 
+                        </div>
+                    </div>
+                </div>
+
+                    <div class="row">
+                        <div class="col-8 col-sm-6">
+                           Email Address
+                        </div>
+                        <div class="col-4 col-sm-6">
+                            <div class="mb-3">
+                                <InputText class="form-control" id="EmailAddress" @bind-Value="@notificationSetting.EmailAddress" />
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-8 col-sm-6">
+                          UserName
+                        </div>
+                        <div class="col-4 col-sm-6">
+                            <div class="mb-3">
+                                <InputText class="form-control" id="UserName" @bind-Value="@notificationSetting.UserName" />
+
+                                </div>
+                        </div>
+                    </div>
+                
+                </div>
+
+                <div class="row">
+                    <div class="mb-3 d-flex justify-content-between">
+                        <button type="submit" class="btn btn-primary" @onclick=@OnSave>Save</button>
+                    <button type="button" class="btn btn-danger" @onclick=@OnCancel>Cancel</button>
+                    </div>
+                </div>
+
+    </div>
+</div>
+    </div>
+</div>
+
+
+@code {
+    private bool IsEmailNotification { get; set; } = false;
+
+    private bool IsAppNotification { get; set; } = false;
+
+    private string EmailAddress { get; set; } = string.Empty;
+
+    private string UserName { get; set; } = string.Empty;
+
+    private NotificationSettingAddCommand notificationSetting = new NotificationSettingAddCommand();
+
+    protected override async Task OnInitializedAsync()
+    {
+        notificationSetting = await FetchOrderEventsAsync();
+
+        await base.OnInitializedAsync();
+    }
+
+    private void OnCancel()
+    {
+
+        notificationSetting = new NotificationSettingAddCommand()
+            {
+                IsApplicationEnabled= false,
+                IsEmailEnabled = false,
+                EmailAddress = "",
+                UserName = "",
+            };
+
+          
+    }
+
+
+    private async Task OnSave()
+    {
+
+        var response = await HttpClient.PostAsJsonAsync("NotificationSettings/Add", notificationSetting);
+
+        if (response.IsSuccessStatusCode)
+        {
+            NavigationManager.NavigateTo("/");
+            return;
+        }
+        return;
+    }
+
+   
+
+
+    private async Task<NotificationSettingAddCommand> FetchOrderEventsAsync()
+    {
+
+        return await HttpClient.GetFromJsonAsync<NotificationSettingAddCommand>($"NotificationSettings/GetIfAny");
+
+    }
+}
+}
+
+<style>
+    body {
+        background-color: #272727;
+        padding: 10px;
+    }
+</style>

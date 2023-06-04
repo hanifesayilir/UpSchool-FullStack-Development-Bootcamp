@@ -1,0 +1,63 @@
+﻿@page "/notifications_view"
+@using Application.Common.Interfaces;
+@using Microsoft.AspNetCore.SignalR.Client;
+@inject IUrlHelperService UrlHelperService
+
+
+<PageTitle>Notifications</PageTitle>
+
+<h3>Notifications Page</h3>
+
+<div class="container justify-content-md-center">
+    <div class="row justify-content-md-center">
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-header text-center" style=" background-color: cadetblue">
+                    <h4 style="text-decoration-color:#1b6ec2">
+                        <span class="oi oi-bell" aria-hidden="true"> Order Application Message</span>
+                       </h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                      
+                        <div class="col-12 col-sm-12">
+                            @message     
+                        </div>
+                    </div>            
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private static HubConnection? hubConnection;
+
+    private string message = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Console.WriteLine("urlhelper", UrlHelperService.SignalRUrl);
+        hubConnection = new HubConnectionBuilder()
+           .WithUrl($"{UrlHelperService.SignalRUrl}/NotificationApplicationHub")
+            .WithAutomaticReconnect()
+            .Build();
+        
+        await hubConnection.StartAsync();
+
+
+        hubConnection.On<string>("SendApplicationNotifications", (incomingMessage) =>
+            {
+               
+                message = incomingMessage;
+                InvokeAsync(StateHasChanged);
+            });
+       
+       
+        await base.OnInitializedAsync();
+    }
+
+   
+
+}

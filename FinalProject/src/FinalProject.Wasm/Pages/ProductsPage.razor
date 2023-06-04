@@ -1,0 +1,68 @@
+﻿@page "/products"
+@using Application.Features.Products.Commands.AddList;
+@using Application.Features.Products.Queries.GetAllByOrderId;
+@inject HttpClient HttpClient
+
+
+<PageTitle>Counter</PageTitle>
+
+<h1>Products</h1>
+
+<div class="container">
+    <div class="row ">
+        <div class="col-md-12">
+            <div class="p-5 mb-4 bg-light rounded-3">
+                <div class="container-fluid">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Order Id</th>
+                                <th>Name</th>
+                                 <th>Picture Path</th>
+                                <th>Price</th>
+                                <th>Sale Price</th>
+                                <th>Created On </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var product in products)
+                            {
+
+                                
+                                <tr>
+                                    <td>@product.OrderId</td>
+                                    <td>@product.Name</td>
+                                    <td>@product.Picture</td>
+                                    <td>@product.Price.ToString("F2")</td>
+                                    <td>@product.SalePrice.ToString("F2")</td>
+                                    <td>@product.CreatedOn</td>
+                                   
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>     
+            </div>
+        </div>
+    </div>
+    </div>
+
+@code {
+   
+
+    private List<ProductDto> products = new List<ProductDto>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        products = await GetProductEventsAsync(); 
+        await base.OnInitializedAsync();
+     }
+
+
+    private async Task<List<ProductDto>?> GetProductEventsAsync()
+    {
+        return await HttpClient.GetFromJsonAsync<List<ProductDto>>($"Products/GetAll");
+    }
+
+ 
+}
