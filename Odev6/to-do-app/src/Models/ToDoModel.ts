@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import DateTimeFormat = Intl.DateTimeFormat;
 
 class ToDoModel  {
-    id: number | undefined;
+    id: string| undefined;
 
     task: string;
 
@@ -11,7 +11,7 @@ class ToDoModel  {
     createdDate: Date | undefined;
 
 
-    constructor(id: number, task: string, isCompleted: boolean, createdDate: Date) {
+    constructor(id: string | undefined, task: string, isCompleted: boolean, createdDate: Date | undefined) {
         this.id = id;
         this.task = task;
         this.isCompleted = isCompleted;

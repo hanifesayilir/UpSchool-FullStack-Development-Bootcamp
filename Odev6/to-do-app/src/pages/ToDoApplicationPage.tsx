@@ -1,23 +1,17 @@
-import React, {useState} from 'react';
+import React, { useState} from 'react';
 import "./ToDoApplicationPage.css";
 import {
     Button,
-    Divider,
     Grid,
     Header,
     Icon,
     Input,
     Segment,
     Select,
-    Card, GridColumn, GridRow, Item,List
+    Card, GridColumn, GridRow, Item, List, Popup
 } from "semantic-ui-react";
-import {toast} from "react-toastify";
+
 import ToDoModel from "../Models/ToDoModel";
-import DateTimeFormat = Intl.DateTimeFormat;
-import {Simulate} from "react-dom/test-utils";
-import toggle = Simulate.toggle;
-import cqb = CSS.cqb;
-import {Link} from "react-router-dom";
 
 
 
@@ -26,16 +20,12 @@ const ToDoApplicationPage = () =>{
     const [toDo, setToDo] = useState<ToDoModel>({createdDate: undefined, id: "", isCompleted: false, task: ""})
     const [toDoList, setToDoList] = useState<ToDoModel[]>([]);
     const [addButtonStatus, setAddButtonStatus] =  useState<boolean>(true);
-    const [selectedOrder, setSelectedOrder] = useState();
+    const [selectedOrder, setSelectedOrder] = useState("true");
 
-    const onAddButtonClick = (e) => {
-        console.log("deneme", e.target.event);
+    const onAddButtonClick = () => {
         setToDoList([...toDoList, toDo]);
         setToDo({createdDate: undefined, id:  undefined, isCompleted: false, task: ""})
-    };
-
-    const updateState = (key: string | number, recentValue: any) => {
-        setToDo({ ...toDo, [key]: recentValue });
+        setAddButtonStatus(true);
     };
 
     const options = [
@@ -45,7 +35,8 @@ const ToDoApplicationPage = () =>{
 
     const handleChangeInput = (event) => {
         event.preventDefault();
-        setAddButtonStatus(false);
+        if(event.target.value !== "") setAddButtonStatus(false);
+        else setAddButtonStatus(true);
         setToDo({...toDo, task: event.target.value, id:crypto.randomUUID(), createdDate: new Date()});
     };
 
@@ -64,8 +55,13 @@ const ToDoApplicationPage = () =>{
     }
 
     const handleSelectChange = (e, data) => {
-        console.log("Select option changed");
+
+        setSelectedOrder(data.value);
+        if(data.value === "false") toDoList.sort((a, b) =>  (a.createdDate < b.createdDate ? 1 : -1));
+        else toDoList.sort((a, b) => (a.createdDate > b.createdDate ? 1 : -1));
     };
+
+
 
         return(
 
@@ -80,7 +76,7 @@ const ToDoApplicationPage = () =>{
                             id={crypto.randomUUID()}
                             icon="tasks"
                             iconPosition={"left"}
-                            placeholder="Task"
+                            placeholder="Please click here to add a task"
                             onChange={(e) =>handleChangeInput(e)}
                             size={"large"}
                             type={"text"}
@@ -88,14 +84,11 @@ const ToDoApplicationPage = () =>{
                         />
                     </GridColumn>
                     <GridColumn  width={4}>
-                        <Button color="green"
-                                onClick={onAddButtonClick}
-                                disabled={addButtonStatus}
-                                size={"large"}
-                        >
-                            <Icon name="add circle" /> Add
-                        </Button>
-
+                        <Popup trigger={<Button color="green" onClick={onAddButtonClick} disabled={addButtonStatus} size={"large"}><Icon name="add circle" /> Add</Button>}
+                                            position="bottom left"
+                                            style={{ color: "green"}}
+                                            hideOnScroll
+                                            > Click to Add</Popup>
                     </GridColumn>
 
                 </GridRow>
@@ -104,7 +97,7 @@ const ToDoApplicationPage = () =>{
 
             <Grid padded={true} style={{ paddingTop: "30px" }}>
                 <GridRow columns={2} >
-                    <GridColumn  width={4} stretched={true}>
+                    <GridColumn  width={12} stretched={true}>
                         <Header as="h3" style={{ paddingBottom: "30px" }}>
                            Actual ToDos
                         </Header>
@@ -115,7 +108,9 @@ const ToDoApplicationPage = () =>{
                             className="ml-2"
                             placeholder="Select order"
                             options={options}
-                            onChange={(e, data) =>handleSelectChange(e, data)}
+                            onChange={(e,  data) =>handleSelectChange(e, data)}
+                            value={selectedOrder}
+
                         />
                     </GridColumn>
                 </GridRow>
@@ -126,18 +121,27 @@ const ToDoApplicationPage = () =>{
 
                         { toDoList.map((item, index) =>
                             (<List.Item key={index}>
+
                                     <List.Content
                                         floated="left"
                                         verticalAlign={"middle"}
                                         onClick={(e) => handleChangeIsCompeted(e,item)}
-                                        style={{textDecoration: item.isCompleted ? 'line-through' : 'none'}}
+                                        style={{textDecoration: item.isCompleted ? 'line-through' : 'none', color: item.isCompleted ? "red" : "black"}}
                                     >
-                                        {item.task}
+                                        <Popup
+                                            trigger={<div>{item.task}</div>}
+                                            content={` Task name: ${item.task}, createdDate: ${item.createdDate}, IsCompleted: ${item.isCompleted}, `}
+                                            style={{color: "green"}}
+                                            header={item.task}
+                                            key={item.id}
+                                        />
                                     </List.Content>
                                     <List.Content floated="right" >
-                                        <Button icon onClick={() => handleToDoItemDelete(item)}>
-                                            <Icon name="trash"/>
-                                        </Button>
+                                        <Popup trigger={<Button icon onClick={() => handleToDoItemDelete(item)}><Icon name="trash"color={"red"}/></Button>}
+                                               position={"top right"}
+                                               style={{ color: "red"}}
+                                               hideOnScroll
+                                        >Click To Delete</Popup>
                                     </List.Content >
                                 </List.Item>
                             ))}
